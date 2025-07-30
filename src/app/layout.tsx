@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-
-import '../styles/globals.css'
+import { Playfair_Display, Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+import '../styles/globals.css'
+
+const playfair = Playfair_Display({
   subsets: ['latin'],
+  variable: '--font-playfair',
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const inter = Inter({
   subsets: ['latin'],
+  variable: '--font-inter',
 })
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+        <body className={`${playfair.variable} ${inter.variable} antialiased`}>{children}</body>
       </html>
     </ClerkProvider>
   )
