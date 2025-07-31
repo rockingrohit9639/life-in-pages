@@ -1,8 +1,10 @@
 import { format } from 'date-fns'
-import { FilterIcon, MoreHorizontalIcon } from 'lucide-react'
+import { FilterIcon } from 'lucide-react'
 import { getUserEntries } from '~/actions/entry'
 import { Button } from '~/components/ui/button'
 import { DATE_FORMAT } from '~/constants/common'
+import DeleteEntryButton from './_components/delete-entry-button'
+import { When } from '~/components/when'
 
 export default async function EntriesPage() {
   const entries = await getUserEntries({})
@@ -28,9 +30,9 @@ export default async function EntriesPage() {
             <div className="flex items-center justify-between">
               <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
 
-              <Button variant="link">
-                <MoreHorizontalIcon className="size-4" />
-              </Button>
+              <When condition={!entry.isUsed}>
+                <DeleteEntryButton entryId={entry.id} />
+              </When>
             </div>
           </div>
         ))}

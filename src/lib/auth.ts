@@ -1,4 +1,4 @@
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { auth } from '@clerk/nextjs/server'
 import { User } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
