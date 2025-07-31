@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     CLERK_SECRET_KEY: z.string().min(1),
     DATABASE_URL: z.string().min(1),
+    CLERK_SIGNING_SECRET: z.string().min(1),
   },
 
   client: {
