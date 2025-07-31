@@ -13,7 +13,7 @@ export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) 
   })
 })
 
-export const getUserEntries = actionWithAuth(async (user, limit: number = 5) => {
+export const getUserEntries = actionWithAuth(async (user, { limit }: { limit?: number }) => {
   return await prisma.entry.findMany({
     where: { userId: user.id },
     take: limit,

@@ -7,7 +7,7 @@ import { format } from 'date-fns'
 import { Skeleton } from '~/components/ui/skeleton'
 
 export default async function EntryList() {
-  const [entries, totalEntries] = await Promise.all([getUserEntries(), getUserTotalEntries()])
+  const [entries, totalEntries] = await Promise.all([getUserEntries({ limit: 5 }), getUserTotalEntries()])
 
   return (
     <div className="flex flex-col gap-2 overflow-auto md:max-h-[400px]">
