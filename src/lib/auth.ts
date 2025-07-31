@@ -1,4 +1,4 @@
-import { currentUser } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { User } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { cache } from 'react'
@@ -12,13 +12,14 @@ import prisma from './db'
 export const actionWithAuth = cache(
   <TArgs extends unknown[], TResult>(action: (user: User, ...args: TArgs) => Promise<TResult>) => {
     return async (...args: TArgs): Promise<TResult> => {
-      const user = await currentUser()
-      if (!user) {
+      const { userId } = await auth()
+
+      if (!userId) {
         throw redirect('/sign-in')
       }
 
       const dbUser = await prisma.user.findUnique({
-        where: { clerkId: user.id },
+        where: { clerkId: userId },
       })
       if (!dbUser) {
         throw redirect('/sign-in')

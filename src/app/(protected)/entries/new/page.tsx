@@ -11,8 +11,10 @@ import { handleError } from '~/lib/error'
 import { PlusIcon } from 'lucide-react'
 import { CreateEntrySchema, createEntrySchema } from '~/schema/entry'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 export default function CreateEntryPage() {
+  const router = useRouter()
   const form = useForm({
     resolver: zodResolver(createEntrySchema),
     defaultValues: {
@@ -26,6 +28,7 @@ export default function CreateEntryPage() {
     onSuccess: () => {
       toast.success('Entry created successfully')
       form.reset()
+      router.push('/home')
     },
   })
 
@@ -49,7 +52,7 @@ export default function CreateEntryPage() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Textarea placeholder="Start writing..." className="max-h-96 min-h-40" {...field} />
+                  <Textarea autoFocus placeholder="Start writing..." className="max-h-96 min-h-40" {...field} />
                 </FormControl>
                 <FormMessage />
                 <FormDescription className="text-right text-xs">{content.trim().length}</FormDescription>
