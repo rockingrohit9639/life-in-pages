@@ -1,27 +1,39 @@
 'use client'
 
-import { Form, FormControl, FormField, FormItem, FormMessage } from '~/components/ui/form'
-import z from 'zod'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '~/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Textarea } from '~/components/ui/textarea'
 import { Button } from '~/components/ui/button'
-
-const schema = z.object({
-  content: z.string().min(100, { message: 'Content must be at least 100 characters' }),
-})
+import { useMutation } from '@tanstack/react-query'
+import { createEntry } from '~/actions/entry'
+import { handleError } from '~/lib/error'
+import { PlusIcon } from 'lucide-react'
+import { CreateEntrySchema, createEntrySchema } from '~/schema/entry'
+import { toast } from 'sonner'
 
 export default function CreateEntryPage() {
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(createEntrySchema),
     defaultValues: {
       content: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values)
+  const createEntryMutation = useMutation({
+    mutationFn: createEntry,
+    onError: handleError,
+    onSuccess: () => {
+      toast.success('Entry created successfully')
+      form.reset()
+    },
+  })
+
+  function onSubmit(values: CreateEntrySchema) {
+    createEntryMutation.mutate(values)
   }
+
+  const content = form.watch('content')
 
   return (
     <div className="mx-auto pt-10 md:max-w-screen-md">
@@ -40,11 +52,15 @@ export default function CreateEntryPage() {
                   <Textarea placeholder="Start writing..." className="max-h-96 min-h-40" {...field} />
                 </FormControl>
                 <FormMessage />
+                <FormDescription className="text-right text-xs">{content.trim().length}</FormDescription>
               </FormItem>
             )}
           />
 
-          <Button>Create</Button>
+          <Button disabled={createEntryMutation.isPending}>
+            <PlusIcon />
+            <span>Create</span>
+          </Button>
         </form>
       </Form>
     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
+import Providers from '~/components/providers'
+import { Toaster } from '~/components/ui/sonner'
 
 import '../styles/globals.css'
 
@@ -25,10 +26,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider>
+    <Providers>
       <html lang="en">
-        <body className={`${playfair.variable} ${inter.variable} antialiased`}>{children}</body>
+        <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+          {children}
+          <Toaster />
+        </body>
       </html>
-    </ClerkProvider>
+    </Providers>
   )
 }
