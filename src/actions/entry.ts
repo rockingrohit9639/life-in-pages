@@ -1,5 +1,6 @@
 'use server'
 
+import { endOfMonth, startOfMonth } from 'date-fns'
 import { actionWithAuth } from '~/lib/auth'
 import prisma from '~/lib/db'
 import { CreateEntrySchema } from '~/schema/entry'
@@ -43,4 +44,21 @@ export const deleteEntry = actionWithAuth(async (user, entryId: string) => {
   return await prisma.entry.delete({
     where: { id: entryId },
   })
+})
+
+export const getEntryDatesOfMonth = actionWithAuth(async (user) => {
+  const entriesInMonth = await prisma.entry.findMany({
+    where: {
+      userId: user.id,
+      AND: [
+        { createdAt: { gte: startOfMonth(new Date()) } },
+        { createdAt: { lte: endOfMonth(new Date()) } },
+      ],
+    },
+    select: {
+      createdAt: true,
+    },
+  })
+
+  return entriesInMonth.map((entry) => entry.createdAt)
 })
