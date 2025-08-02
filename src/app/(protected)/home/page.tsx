@@ -1,26 +1,34 @@
-import { ArrowRightIcon } from 'lucide-react'
-import Link from 'next/link'
-import { Button } from '~/components/ui/button'
-import EntryList from './entry-list'
-import { Suspense } from 'react'
+import StatCard from '~/components/stat-card'
 import Streak from './streak'
+import { currentUser } from '@clerk/nextjs/server'
+import { Button } from '~/components/ui/button'
+import { ArrowRightIcon } from 'lucide-react'
 
 export default async function HomePage() {
+  const user = await currentUser()
+
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center p-4 md:p-0">
-      <div className="mx-auto flex w-full flex-col gap-4 md:max-w-lg">
-        <Streak />
+    <div className="p-4">
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <p className="text-2xl font-bold">Welcome back, {user?.firstName}</p>
 
-        <Button asChild className="flex cursor-pointer items-center justify-between px-4 py-6 shadow-lg">
-          <Link href="/entries/new">
-            <span>Start writing</span>
-            <ArrowRightIcon className="size-4" />
-          </Link>
+        <Button>
+          <span>Start writing</span>
+          <ArrowRightIcon className="size-4" />
         </Button>
+      </div>
 
-        <Suspense fallback={<EntryList.Skeleton />}>
-          <EntryList />
-        </Suspense>
+      <div className="grid grid-cols-8 gap-4">
+        <StatCard
+          title="Total Entries"
+          value="34"
+          className="md:col-span-2"
+          link={{
+            label: 'View all entries',
+            href: '/entries',
+          }}
+        />
+        <Streak className="md:col-span-6" />
       </div>
     </div>
   )
