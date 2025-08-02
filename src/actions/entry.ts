@@ -1,6 +1,7 @@
 'use server'
 
 import { endOfMonth, startOfMonth } from 'date-fns'
+import { ENTRY_REQUIRED_AFTER_PREVIEW, ENTRY_REQUIRED_BEFORE_PREVIEW } from '~/constants/entry'
 import { actionWithAuth } from '~/lib/auth'
 import prisma from '~/lib/db'
 import { CreateEntrySchema } from '~/schema/entry'
@@ -61,4 +62,23 @@ export const getEntryDatesOfMonth = actionWithAuth(async (user) => {
   })
 
   return entriesInMonth.map((entry) => entry.createdAt)
+})
+
+export const getNextChapterProgress = actionWithAuth(async (user) => {
+  const totalEntries = await prisma.entry.count({
+    where: { userId: user.id, isUsed: false },
+  })
+
+  /** @TODO Check if user has generated the preview */
+  const isPreviewGenerated = false
+
+  if (isPreviewGenerated) {
+    return {
+      progress: Math.min((totalEntries / ENTRY_REQUIRED_AFTER_PREVIEW) * 100, 100),
+    }
+  }
+
+  return {
+    progress: Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_PREVIEW) * 100, 100),
+  }
 })
