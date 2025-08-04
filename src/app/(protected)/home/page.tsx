@@ -5,25 +5,31 @@ import { Button } from '~/components/ui/button'
 import { ArrowRightIcon } from 'lucide-react'
 import ChapterProgress from './chapter-progress'
 import { Suspense } from 'react'
+import EntriesByDateChart from './entries-by-date-chart'
+import Link from 'next/link'
+import { getHomePageData } from '~/actions/entry'
 
 export default async function HomePage() {
   const user = await currentUser()
+  const { totalEntries, entriesPerDay } = await getHomePageData()
 
   return (
     <div className="p-4">
       <div className="mb-4 flex items-center justify-between gap-4">
         <p className="text-2xl font-bold">Welcome back, {user?.firstName}</p>
 
-        <Button>
-          <span>Start writing</span>
-          <ArrowRightIcon className="size-4" />
+        <Button asChild>
+          <Link href="/entries/new">
+            <span>Start writing</span>
+            <ArrowRightIcon className="size-4" />
+          </Link>
         </Button>
       </div>
 
       <div className="grid grid-cols-8 gap-4">
         <StatCard
           title="Total Entries"
-          value="34"
+          value={totalEntries}
           className="md:col-span-2"
           link={{
             label: 'View all entries',
@@ -38,6 +44,8 @@ export default async function HomePage() {
         <Suspense fallback={<ChapterProgress.Skeleton className="md:col-span-2" />}>
           <ChapterProgress className="md:col-span-2" />
         </Suspense>
+
+        <EntriesByDateChart data={entriesPerDay} className="md:col-span-6" />
       </div>
     </div>
   )

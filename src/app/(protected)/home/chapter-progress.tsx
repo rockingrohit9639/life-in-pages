@@ -11,7 +11,7 @@ export default async function ChapterProgress({ className }: ChapterProgressProp
   const { progress } = await getNextChapterProgress()
 
   return (
-    <div className={cn('rounded-md border bg-gray-100 p-4', className)}>
+    <div className={cn('h-max rounded-md border p-4', className)}>
       <p className="mb-4 text-sm">Your progress to generate next chapter</p>
 
       <div className="relative h-10 w-full overflow-hidden rounded-md bg-gray-200">

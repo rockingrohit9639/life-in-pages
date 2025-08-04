@@ -82,3 +82,55 @@ export const getNextChapterProgress = actionWithAuth(async (user) => {
     progress: Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_PREVIEW) * 100, 100),
   }
 })
+
+function getTotalEntries(userId: string) {
+  return prisma.entry.count({ where: { userId } })
+}
+
+async function getEntriesPerDay(userId: string) {
+  const now = new Date()
+
+  const entriesPerDay = await prisma.entry.aggregateRaw({
+    pipeline: [
+      {
+        $match: {
+          userId: { $oid: userId },
+          createdAt: {
+            $gte: { $date: startOfMonth(now) },
+            $lte: { $date: endOfMonth(now) },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: '%Y-%m-%d', date: '$createdAt' },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ],
+  })
+
+  const _entriesPerDay = entriesPerDay as unknown as Array<{ _id: string; count: number }>
+
+  return _entriesPerDay.map((entry) => ({
+    date: entry._id,
+    count: entry.count,
+  }))
+}
+
+export const getHomePageData = actionWithAuth(async (user) => {
+  const [totalEntries, entriesPerDay] = await Promise.all([
+    getTotalEntries(user.id),
+    getEntriesPerDay(user.id),
+  ])
+
+  return {
+    totalEntries,
+    entriesPerDay,
+  }
+})

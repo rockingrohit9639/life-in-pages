@@ -11,7 +11,7 @@ type StatCardProps = {
 
 export default function StatCard({ className, title, value, link }: StatCardProps) {
   return (
-    <div className={cn('rounded-md border bg-gray-100 p-4', className)}>
+    <div className={cn('rounded-md border p-4', className)}>
       <p className="text-sm">{title}</p>
       <p className="text-2xl font-bold md:text-4xl">{value}</p>
 
