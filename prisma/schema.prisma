@@ -13,7 +13,10 @@ model User {
   email   String @unique
   name    String
 
+  isOnboarded Boolean @default(false)
+
   entries Entry[]
+  book    Book?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -34,4 +37,20 @@ model Entry {
   updatedAt DateTime @updatedAt
 
   @@map("entries")
+}
+
+model Book {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  title    String
+  isPublic Boolean @default(false)
+  mood     String
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String @unique @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("books")
 }

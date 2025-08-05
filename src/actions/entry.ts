@@ -74,12 +74,12 @@ export const getNextChapterProgress = actionWithAuth(async (user) => {
 
   if (isPreviewGenerated) {
     return {
-      progress: Math.min((totalEntries / ENTRY_REQUIRED_AFTER_PREVIEW) * 100, 100),
+      progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_AFTER_PREVIEW) * 100, 100)),
     }
   }
 
   return {
-    progress: Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_PREVIEW) * 100, 100),
+    progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_PREVIEW) * 100, 100)),
   }
 })
 

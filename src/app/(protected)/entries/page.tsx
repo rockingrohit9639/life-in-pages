@@ -11,15 +11,15 @@ export default async function EntriesPage() {
 
   return (
     <div className="w-full p-4">
-      <div className="flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <div />
 
-        <Button className="ml-auto" variant="outline">
-          <FilterIcon />
+        <Button className="ml-auto" variant="outline" size="icon">
+          <FilterIcon className="size-4" />
         </Button>
       </div>
 
-      <div className="mt-4 flex flex-col flex-wrap justify-center gap-2 md:flex-row">
+      <div className="flex flex-col flex-wrap justify-center gap-2 md:flex-row">
         {entries.map((entry) => (
           <div
             key={entry.id}
@@ -28,7 +28,9 @@ export default async function EntriesPage() {
             <p>{entry.content.slice(0, 1000)}</p>
 
             <div className="flex items-center justify-between">
-              <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
+              <p className="text-muted-foreground text-xs">
+                {format(entry.createdAt, DATE_FORMAT)}
+              </p>
 
               <When condition={!entry.isUsed}>
                 <DeleteEntryButton entryId={entry.id} />
