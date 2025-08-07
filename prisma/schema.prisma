@@ -15,8 +15,9 @@ model User {
 
   isOnboarded Boolean @default(false)
 
-  entries Entry[]
-  book    Book?
+  entries  Entry[]
+  book     Book?
+  chapters Chapter[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -36,6 +37,9 @@ model Entry {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?  @db.ObjectId
+
   @@map("entries")
 }
 
@@ -46,11 +50,32 @@ model Book {
   isPublic Boolean @default(false)
   mood     String
 
-  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId String @unique @db.ObjectId
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String    @unique @db.ObjectId
+  chapters Chapter[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("books")
+}
+
+model Chapter {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  title   String
+  content String
+
+  entriesUsed Entry[]
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String @db.ObjectId
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("chapters")
 }

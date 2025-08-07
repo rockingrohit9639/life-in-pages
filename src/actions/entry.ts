@@ -1,18 +1,43 @@
 'use server'
 
 import { endOfMonth, startOfMonth } from 'date-fns'
-import { ENTRY_REQUIRED_AFTER_PREVIEW, ENTRY_REQUIRED_BEFORE_PREVIEW } from '~/constants/entry'
+import {
+  ENTRY_REQUIRED_AFTER_FIRST_CHAPTER,
+  ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER,
+} from '~/constants/entry'
 import { actionWithAuth } from '~/lib/auth'
 import prisma from '~/lib/db'
 import { CreateEntrySchema } from '~/schema/entry'
+import { generateChapter } from './ai'
 
 export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) => {
-  return await prisma.entry.create({
+  const newEntry = await prisma.entry.create({
     data: {
       content: data.content,
       user: { connect: { id: user.id } },
     },
   })
+
+  const notUsedEntriesCount = await prisma.entry.count({
+    where: { userId: user.id, isUsed: false },
+  })
+  const chaptersCreated = await prisma.chapter.count({ where: { userId: user.id } })
+  const entriesRequired =
+    chaptersCreated >= 1 ? ENTRY_REQUIRED_AFTER_FIRST_CHAPTER : ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER
+
+  if (notUsedEntriesCount >= entriesRequired) {
+    const notUsedEntries = await prisma.entry.findMany({
+      where: { userId: user.id, isUsed: false },
+      orderBy: { createdAt: 'asc' },
+    })
+
+    await generateChapter({
+      entries: notUsedEntries,
+      userId: user.id,
+    })
+  }
+
+  return newEntry
 })
 
 export const getUserEntries = actionWithAuth(async (user, { limit }: { limit?: number }) => {
@@ -74,12 +99,14 @@ export const getNextChapterProgress = actionWithAuth(async (user) => {
 
   if (isPreviewGenerated) {
     return {
-      progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_AFTER_PREVIEW) * 100, 100)),
+      progress: Math.floor(
+        Math.min((totalEntries / ENTRY_REQUIRED_AFTER_FIRST_CHAPTER) * 100, 100),
+      ),
     }
   }
 
   return {
-    progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_PREVIEW) * 100, 100)),
+    progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER) * 100, 100)),
   }
 })
 
