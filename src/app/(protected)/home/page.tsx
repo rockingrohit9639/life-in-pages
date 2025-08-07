@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 import EntriesByDateChart from './entries-by-date-chart'
 import Link from 'next/link'
 import { getHomePageData } from '~/actions/entry'
+import EntryList from './entry-list'
 
 export default async function HomePage() {
   const user = await currentUser()
@@ -41,9 +42,15 @@ export default async function HomePage() {
           <Streak className="md:col-span-6" />
         </Suspense>
 
-        <Suspense fallback={<ChapterProgress.Skeleton className="md:col-span-2" />}>
-          <ChapterProgress className="md:col-span-2" />
-        </Suspense>
+        <div className="md:col-span-2">
+          <Suspense fallback={<ChapterProgress.Skeleton />}>
+            <ChapterProgress className="mb-4" />
+          </Suspense>
+
+          <Suspense fallback={<EntryList.Skeleton />}>
+            <EntryList />
+          </Suspense>
+        </div>
 
         <EntriesByDateChart data={entriesPerDay} className="md:col-span-6" />
       </div>
