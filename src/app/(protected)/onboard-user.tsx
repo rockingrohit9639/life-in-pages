@@ -48,7 +48,15 @@ export default function OnboardUser() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 md:p-0">
+    <div
+      className="flex min-h-screen items-center justify-center bg-white p-4 md:p-0"
+      style={{
+        backgroundPosition: '0 0,10px 10px',
+        backgroundImage:
+          'radial-gradient(var(--primary) 0.5px, transparent 0.5px), radial-gradient(var(--primary) 0.5px, #ffffff 0.5px)',
+        backgroundSize: '20px 20px',
+      }}
+    >
       <Form {...form}>
         <form
           className="w-full rounded-lg border bg-white p-4 md:max-w-screen-sm"
