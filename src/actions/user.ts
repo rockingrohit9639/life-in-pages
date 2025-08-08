@@ -23,3 +23,5 @@ export const onboardUser = actionWithAuth(async (user, data: OnboardUserSchema) 
     }),
   ])
 })
+
+export const getCurrentUser = actionWithAuth(async (user) => user)

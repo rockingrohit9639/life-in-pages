@@ -1,6 +1,6 @@
 'use client'
 
-import { BookCopyIcon, BrainIcon, LucideIcon } from 'lucide-react'
+import { BookCopyIcon, BookIcon, BrainIcon, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '~/components/ui/button'
@@ -18,6 +18,10 @@ const SIDEBAR_ITEMS = [
   {
     icon: BookCopyIcon,
     href: '/entries',
+  },
+  {
+    icon: BookIcon,
+    href: '/book',
   },
 ] satisfies SidebarItem[]
 

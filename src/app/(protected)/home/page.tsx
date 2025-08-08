@@ -9,15 +9,16 @@ import EntriesByDateChart from './entries-by-date-chart'
 import Link from 'next/link'
 import { getHomePageData } from '~/actions/entry'
 import EntryList from './entry-list'
+import { getCurrentUser } from '~/actions/user'
 
 export default async function HomePage() {
-  const user = await currentUser()
+  const user = await getCurrentUser()
   const { totalEntries, entriesPerDay } = await getHomePageData()
 
   return (
     <div className="p-4">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="font-bold md:text-2xl">Welcome back, {user?.firstName}</p>
+        <p className="font-bold md:text-2xl">Welcome back, {user?.name}</p>
 
         <Button asChild>
           <Link href="/entries/new">
