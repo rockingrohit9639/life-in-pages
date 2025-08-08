@@ -23,7 +23,7 @@ const SIDEBAR_ITEMS = [
 
 export default function Sidebar() {
   return (
-    <div className="bg-background/5 fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded border p-2 backdrop-blur-lg md:top-0 md:left-0 md:h-screen md:translate-0 md:flex-col md:rounded-none md:border-y-0 md:border-l-0">
+    <div className="bg-background/5 fixed bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded-md border p-2 backdrop-blur-sm md:top-0 md:left-0 md:h-screen md:translate-0 md:flex-col md:rounded-none md:border-y-0 md:border-l-0">
       {SIDEBAR_ITEMS.map((item) => (
         <NavItem key={item.href} {...item} />
       ))}

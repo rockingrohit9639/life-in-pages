@@ -17,7 +17,7 @@ export default async function HomePage() {
   return (
     <div className="p-4">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="text-2xl font-bold">Welcome back, {user?.firstName}</p>
+        <p className="font-bold md:text-2xl">Welcome back, {user?.firstName}</p>
 
         <Button asChild>
           <Link href="/entries/new">
@@ -27,7 +27,7 @@ export default async function HomePage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-8 gap-4">
+      <div className="grid gap-4 md:grid-cols-8">
         <StatCard
           title="Total Entries"
           value={totalEntries}
