@@ -8,7 +8,8 @@ import {
 import { actionWithAuth } from '~/lib/auth'
 import prisma from '~/lib/db'
 import { CreateEntrySchema } from '~/schema/entry'
-import { generateChapter } from './ai'
+import { tasks } from '@trigger.dev/sdk/v3'
+import { createChapterTask } from '~/trigger/example'
 
 export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) => {
   const newEntry = await prisma.entry.create({
@@ -26,15 +27,11 @@ export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) 
     chaptersCreated >= 1 ? ENTRY_REQUIRED_AFTER_FIRST_CHAPTER : ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER
 
   if (notUsedEntriesCount >= entriesRequired) {
-    const notUsedEntries = await prisma.entry.findMany({
-      where: { userId: user.id, isUsed: false },
-      orderBy: { createdAt: 'asc' },
-    })
-
-    await generateChapter({
-      entries: notUsedEntries,
-      userId: user.id,
-    })
+    try {
+      await tasks.trigger<typeof createChapterTask>('create-chapter', { userId: user.id })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return newEntry

@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "trigger:dev": "npx trigger.dev@latest dev",
+    "next:dev": "next dev --turbopack",
+    "dev": "npx concurrently --kill-others --names \"next,trigger\" --prefix-colors \"yellow,blue\" \"bun run next:dev\" \"bun run trigger:dev\""
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.3",
@@ -22,6 +24,7 @@
     "@radix-ui/react-switch": "^1.2.5",
     "@t3-oss/env-nextjs": "^0.13.8",
     "@tanstack/react-query": "^5.83.1",
+    "@trigger.dev/sdk": "^3.3.17",
     "ai": "^5.0.8",
     "bson": "^6.10.4",
     "class-variance-authority": "^0.7.1",
@@ -47,6 +50,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@trigger.dev/build": "^3.3.17",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
