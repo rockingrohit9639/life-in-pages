@@ -1,6 +1,5 @@
 import StatCard from '~/components/stat-card'
 import Streak from './streak'
-import { currentUser } from '@clerk/nextjs/server'
 import { Button } from '~/components/ui/button'
 import { ArrowRightIcon } from 'lucide-react'
 import ChapterProgress from './chapter-progress'

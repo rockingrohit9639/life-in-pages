@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { Skeleton } from '~/components/ui/skeleton'
 import EmptyState from '~/components/empty-state'
 import { Button } from '~/components/ui/button'
+import { cn } from '~/lib/utils'
 
 export default async function EntryList({ className }: { className?: string }) {
   const [entries, totalEntries] = await Promise.all([
@@ -15,7 +16,7 @@ export default async function EntryList({ className }: { className?: string }) {
   ])
 
   return (
-    <div className="flex flex-col gap-2 overflow-auto md:max-h-[550px]">
+    <div className={cn('flex flex-col gap-2 overflow-auto md:max-h-[550px]', className)}>
       <When
         condition={entries.length > 0}
         fallback={
