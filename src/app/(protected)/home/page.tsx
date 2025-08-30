@@ -1,5 +1,5 @@
 import StatCard from '~/components/stat-card'
-import Streak from './streak'
+import StreakWrapper from './streak-wrapper'
 import { Button } from '~/components/ui/button'
 import { ArrowRightIcon } from 'lucide-react'
 import ChapterProgress from './chapter-progress'
@@ -38,8 +38,8 @@ export default async function HomePage() {
           }}
         />
 
-        <Suspense fallback={<Streak.Skeleton className="md:col-span-6" />}>
-          <Streak className="md:col-span-6" />
+        <Suspense fallback={<StreakWrapper.Skeleton className="md:col-span-6" />}>
+          <StreakWrapper className="md:col-span-6" />
         </Suspense>
 
         <div className="md:col-span-2">
