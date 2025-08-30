@@ -4,24 +4,29 @@ import { BookCopyIcon, BookIcon, BrainIcon, LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from '~/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '~/components/ui/tooltip'
 
 type SidebarItem = {
   icon: LucideIcon
   href: string
+  label: string
 }
 
 const SIDEBAR_ITEMS = [
   {
     icon: BrainIcon,
     href: '/home',
+    label: 'Home',
   },
   {
     icon: BookCopyIcon,
     href: '/entries',
+    label: 'Entries',
   },
   {
     icon: BookIcon,
     href: '/book',
+    label: 'Book',
   },
 ] satisfies SidebarItem[]
 
@@ -35,15 +40,21 @@ export default function Sidebar() {
   )
 }
 
-function NavItem({ href, icon: Icon }: SidebarItem) {
+function NavItem({ href, icon: Icon, label }: SidebarItem) {
   const pathname = usePathname()
   const isActive = pathname === href
 
   return (
-    <Button key={href} variant={isActive ? 'default' : 'ghost'} size="icon" asChild>
-      <Link href={href}>
-        <Icon className="size-4" />
-      </Link>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button key={href} variant={isActive ? 'default' : 'ghost'} size="icon" asChild>
+          <Link href={href}>
+            <Icon className="size-4" />
+          </Link>
+        </Button>
+      </TooltipTrigger>
+
+      <TooltipContent side="right">{label}</TooltipContent>
+    </Tooltip>
   )
 }
