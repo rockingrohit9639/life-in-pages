@@ -2,7 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import prisma from '~/lib/db'
 import OnboardUser from './onboard-user'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '~/components/ui/sidebar'
+import { SidebarInset, SidebarProvider } from '~/components/ui/sidebar'
 import { AppSidebar } from '~/components/app-sidebar'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {

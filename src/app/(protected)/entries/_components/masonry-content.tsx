@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { DATE_FORMAT } from '~/constants/common'
 import { When } from '~/components/when'
 import DeleteEntryButton from './delete-entry-button'
+import { Card, CardContent } from '~/components/ui/card'
 
 type MasonryContentProps = {
   entries: Entry[]
@@ -16,20 +17,21 @@ export default function MasonryContent({ entries }: MasonryContentProps) {
       columnGutter={8}
       columnWidth={300}
       render={({ data: entry }) => (
-        <div
-          key={entry.id}
-          className="bg-muted/10 border-muted flex w-full max-w-sm min-w-80 flex-1 flex-col justify-between rounded-md border p-4"
-        >
-          <p>{entry.content.slice(0, 1000)}</p>
+        <Card key={entry.id}>
+          <CardContent>
+            <p>{entry.content.slice(0, 1000)}</p>
 
-          <div className="flex items-center justify-between">
-            <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
+            <div className="flex items-center justify-between">
+              <p className="text-muted-foreground text-xs">
+                {format(entry.createdAt, DATE_FORMAT)}
+              </p>
 
-            <When condition={!entry.isUsed}>
-              <DeleteEntryButton entryId={entry.id} />
-            </When>
-          </div>
-        </div>
+              <When condition={!entry.isUsed}>
+                <DeleteEntryButton entryId={entry.id} />
+              </When>
+            </div>
+          </CardContent>
+        </Card>
       )}
     />
   )

@@ -18,6 +18,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '~/components/ui/sidebar'
+import ThemeToggler from './theme-toggler'
 
 export function NavUser() {
   const { user } = useUser()
@@ -67,6 +68,10 @@ export function NavUser() {
               <DropdownMenuItem>
                 <CogIcon />
                 Settings
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <ThemeToggler />
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

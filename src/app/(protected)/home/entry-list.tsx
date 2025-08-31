@@ -8,6 +8,7 @@ import { Skeleton } from '~/components/ui/skeleton'
 import EmptyState from '~/components/empty-state'
 import { Button } from '~/components/ui/button'
 import { cn } from '~/lib/utils'
+import { Card, CardContent } from '~/components/ui/card'
 
 export default async function EntryList({ className }: { className?: string }) {
   const [entries, totalEntries] = await Promise.all([
@@ -35,10 +36,14 @@ export default async function EntryList({ className }: { className?: string }) {
         }
       >
         {entries.map((entry) => (
-          <div key={entry.id} className="bg-muted/10 border-muted rounded-md border p-4">
-            <p className="mb-2">{entry.content.slice(0, 1000)}</p>
-            <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
-          </div>
+          <Card key={entry.id}>
+            <CardContent>
+              <p className="mb-2">{entry.content.slice(0, 1000)}</p>
+              <p className="text-muted-foreground text-xs">
+                {format(entry.createdAt, DATE_FORMAT)}
+              </p>
+            </CardContent>
+          </Card>
         ))}
 
         <When condition={totalEntries > entries.length}>

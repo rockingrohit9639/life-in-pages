@@ -12,6 +12,7 @@ import {
   ChartTooltipContent,
 } from '~/components/ui/chart'
 import { When } from '~/components/when'
+import { cn } from '~/lib/utils'
 
 const chartConfig = {} satisfies ChartConfig
 
@@ -25,7 +26,7 @@ type EntriesByDateChartProps = {
 
 export default function EntriesByDateChart({ data, className }: EntriesByDateChartProps) {
   return (
-    <Card className={className}>
+    <Card className={cn('h-[600px]', className)}>
       <CardHeader>
         <CardTitle>Entries by date</CardTitle>
         <CardDescription>
@@ -35,12 +36,12 @@ export default function EntriesByDateChart({ data, className }: EntriesByDateCha
 
       <CardContent>
         <When
-          condition={data.length < 0}
+          condition={data.length > 0}
           fallback={
-            <div className="text-muted-foreground flex h-[600px] w-full flex-col items-center justify-center gap-2 rounded-md bg-gray-50">
+            <div className="text-muted-foreground bg-muted/50 flex h-[480px] w-full flex-col items-center justify-center gap-2 rounded-md">
               <PackageOpenIcon className="size-10" />
               <p className="text-sm">You have not created any entries yet.</p>
-              <Button asChild>
+              <Button asChild variant="link">
                 <Link href="/entries/new">Start writing now</Link>
               </Button>
             </div>

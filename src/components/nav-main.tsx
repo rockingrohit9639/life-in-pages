@@ -1,4 +1,5 @@
 import { BookCopyIcon, BookIcon, BrainIcon, type LucideIcon } from 'lucide-react'
+import Link from 'next/link'
 
 import {
   SidebarGroup,
@@ -37,9 +38,11 @@ export function NavMain() {
       <SidebarMenu>
         <SidebarMenuItem>
           {SIDEBAR_ITEMS.map((item) => (
-            <SidebarMenuButton key={item.href} tooltip={item.label}>
-              {item.icon && <item.icon />}
-              <span>{item.label}</span>
+            <SidebarMenuButton key={item.href} tooltip={item.label} asChild>
+              <Link href={item.href}>
+                {item.icon && <item.icon />}
+                <span>{item.label}</span>
+              </Link>
             </SidebarMenuButton>
           ))}
         </SidebarMenuItem>

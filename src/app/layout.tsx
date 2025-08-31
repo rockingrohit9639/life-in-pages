@@ -17,7 +17,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Life in Pages',
-  description: 'Write a little each day. Watch your story unfold as chapters — powered by AI, guided by your emotions',
+  description:
+    'Write a little each day. Watch your story unfold as chapters — powered by AI, guided by your emotions',
 }
 
 export default function RootLayout({
@@ -26,13 +27,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={`${playfair.variable} ${inter.variable} antialiased`}>
-          {children}
-          <Toaster />
-        </body>
-      </html>
-    </Providers>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+        <Providers>{children}</Providers>
+        <Toaster />
+      </body>
+    </html>
   )
 }
