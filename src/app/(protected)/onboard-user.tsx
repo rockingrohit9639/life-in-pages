@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { onboardUser } from '~/actions/user'
 import { Button } from '~/components/ui/button'
+import { Card, CardContent } from '~/components/ui/card'
 import {
   Form,
   FormControl,
@@ -48,87 +49,78 @@ export default function OnboardUser() {
   }
 
   return (
-    <div
-      className="flex min-h-screen items-center justify-center bg-white p-4 md:p-0"
-      style={{
-        backgroundPosition: '0 0,10px 10px',
-        backgroundImage:
-          'radial-gradient(var(--primary) 0.5px, transparent 0.5px), radial-gradient(var(--primary) 0.5px, #ffffff 0.5px)',
-        backgroundSize: '20px 20px',
-      }}
-    >
+    <div className="bg-muted flex min-h-screen items-center justify-center p-4 md:p-0">
       <Form {...form}>
-        <form
-          className="w-full rounded-lg border bg-white p-4 md:max-w-screen-sm"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
-          <p className="mb-2 text-lg font-medium">Personal Info</p>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter your full name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Separator className="my-6" />
+        <Card className="w-full md:max-w-screen-sm" onSubmit={form.handleSubmit(onSubmit)}>
+          <CardContent>
+            <p className="mb-2 text-lg font-medium">Personal Info</p>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your full name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Separator className="my-6" />
 
-          <p className="mb-2 text-lg font-medium">Book Info</p>
+            <p className="mb-2 text-lg font-medium">Book Info</p>
 
-          <FormField
-            control={form.control}
-            name="bookTitle"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel>Book Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter the title of the book" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="bookTitle"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormLabel>Book Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter the title of the book" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="bookMood"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel>Book Mood</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter the mood of the book" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="bookMood"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormLabel>Book Mood</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter the mood of the book" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="bookIsPublic"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel>Book Is Public</FormLabel>
-                <FormControl>
-                  <Switch
-                    checked={field.value ?? false}
-                    onCheckedChange={(checked) => field.onChange(!!checked)}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="bookIsPublic"
+              render={({ field }) => (
+                <FormItem className="mb-4">
+                  <FormLabel>Book Is Public</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value ?? false}
+                      onCheckedChange={(checked) => field.onChange(!!checked)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button className="w-full" disabled={onboardUserMutation.isPending}>
-            {onboardUserMutation.isPending ? 'Saving...' : 'Continue'}
-          </Button>
-        </form>
+            <Button className="w-full" disabled={onboardUserMutation.isPending}>
+              {onboardUserMutation.isPending ? 'Saving...' : 'Continue'}
+            </Button>
+          </CardContent>
+        </Card>
       </Form>
     </div>
   )
