@@ -1,8 +1,9 @@
 import { auth } from '@clerk/nextjs/server'
-import Sidebar from './sidebar'
 import { redirect } from 'next/navigation'
 import prisma from '~/lib/db'
 import OnboardUser from './onboard-user'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '~/components/ui/sidebar'
+import { AppSidebar } from '~/components/app-sidebar'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { userId } = await auth()
@@ -21,9 +22,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div>
-      <Sidebar />
-      <div className="md:ml-14">{children}</div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

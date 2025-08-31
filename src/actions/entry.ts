@@ -9,6 +9,7 @@ import { actionWithAuth } from '~/lib/auth'
 import prisma from '~/lib/db'
 import { CreateEntrySchema } from '~/schema/entry'
 import { generateChapter } from './ai'
+import { revalidatePath } from 'next/cache'
 
 export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) => {
   const newEntry = await prisma.entry.create({
@@ -32,6 +33,8 @@ export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) 
       console.error(error)
     }
   }
+
+  revalidatePath('/home')
 
   return newEntry
 })
