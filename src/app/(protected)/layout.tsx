@@ -8,7 +8,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const { userId } = await auth()
 
   if (!userId) {
-    return redirect('/sign-in')
+    throw redirect('/sign-in')
   }
 
   const user = await prisma.user.findUnique({
