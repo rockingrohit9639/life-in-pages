@@ -9,7 +9,7 @@ export default async function BookPage() {
   return (
     <div className="mx-auto min-h-screen max-w-screen-md md:border-x">
       <div className="flex flex-col gap-4 border-b p-4">
-        <h1 className="font-playfair text-2xl font-bold">{book.title}</h1>
+        <h1 className="font-crimson text-2xl font-bold">{book.title}</h1>
       </div>
 
       <When

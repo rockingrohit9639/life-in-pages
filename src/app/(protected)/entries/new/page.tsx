@@ -40,7 +40,7 @@ export default function CreateEntryPage() {
 
   return (
     <div className="mx-auto pt-10 md:max-w-screen-md">
-      <h1 className="font-playfair mx-auto mb-10 max-w-2xl text-center text-xl font-bold md:text-6xl">
+      <h1 className="font-crimson mx-auto mb-10 max-w-2xl text-center text-xl font-bold md:text-6xl">
         This is your space. Let your thoughts flow.
       </h1>
 

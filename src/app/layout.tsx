@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Crimson_Pro, Inter } from 'next/font/google';
 import Providers from '~/components/providers';
 import { Toaster } from '~/components/ui/sonner';
 
 import '../styles/globals.css';
 
-const playfair = Playfair_Display({
+const crimson = Crimson_Pro({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-crimson',
 });
 
 const inter = Inter({
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+      <body className={`${crimson.variable} ${inter.variable} antialiased`}>
         <Providers>{children}</Providers>
         <Toaster />
       </body>
