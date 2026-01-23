@@ -80,11 +80,16 @@ export const deleteEntry = actionWithAuth(async (user, entryId: string) => {
   });
 });
 
-export const getEntryDatesOfMonth = actionWithAuth(async (user) => {
+export const getEntryDatesOfMonth = actionWithAuth(async (user, params?: { year?: number; month?: number }) => {
+  const now = new Date();
+  const year = params?.year ?? now.getFullYear();
+  const month = params?.month ?? now.getMonth();
+  const targetDate = new Date(year, month, 1);
+
   const entriesInMonth = await prisma.entry.findMany({
     where: {
       userId: user.id,
-      AND: [{ createdAt: { gte: startOfMonth(new Date()) } }, { createdAt: { lte: endOfMonth(new Date()) } }],
+      AND: [{ createdAt: { gte: startOfMonth(targetDate) } }, { createdAt: { lte: endOfMonth(targetDate) } }],
     },
     select: {
       createdAt: true,

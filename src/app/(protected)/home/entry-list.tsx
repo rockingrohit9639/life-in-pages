@@ -1,66 +1,77 @@
-import { ArrowRightIcon } from 'lucide-react';
+import { PenLineIcon } from 'lucide-react';
 import Link from 'next/link';
-import { getUserEntries, getUserTotalEntries } from '~/actions/entry';
+import { getUserEntries } from '~/actions/entry';
 import { When } from '~/components/when';
-import { DATE_FORMAT } from '~/constants/common';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow, isToday, isYesterday } from 'date-fns';
 import { Skeleton } from '~/components/ui/skeleton';
-import EmptyState from '~/components/empty-state';
 import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { Card, CardContent } from '~/components/ui/card';
 
+function formatEntryDate(date: Date): string {
+  if (isToday(date)) return 'Today';
+  if (isYesterday(date)) return 'Yesterday';
+  const distance = formatDistanceToNow(date, { addSuffix: false });
+  if (distance.includes('day')) return format(date, 'MMM d');
+  return distance + ' ago';
+}
+
 export default async function EntryList({ className }: { className?: string }) {
-  const [entries, totalEntries] = await Promise.all([getUserEntries({ limit: 5 }), getUserTotalEntries()]);
+  const entries = await getUserEntries({ limit: 4 });
 
   return (
-    <div className={cn('flex flex-col gap-2 overflow-auto md:max-h-[550px]', className)}>
-      <When
-        condition={entries.length > 0}
-        fallback={
-          <EmptyState
-            title="No entries yet"
-            description="Start your journey by creating an entry"
-            extraContent={
-              <Button asChild variant="ghost">
-                <Link href="/entries/new">
-                  <span>Start writing</span>
-                  <ArrowRightIcon className="size-4" />
-                </Link>
+    <Card className={cn('', className)}>
+      <CardContent className="p-0">
+        <When
+          condition={entries.length > 0}
+          fallback={
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-muted">
+                <PenLineIcon className="size-5 text-muted-foreground" />
+              </div>
+              <p className="mb-1 text-sm font-medium">No entries yet</p>
+              <p className="mb-4 text-xs text-muted-foreground">Start your journey by writing</p>
+              <Button asChild size="sm" variant="outline">
+                <Link href="/entries/new">Write your first entry</Link>
               </Button>
-            }
-          />
-        }
-      >
-        {entries.map((entry) => (
-          <Card key={entry.id}>
-            <CardContent>
-              <p className="mb-2">{entry.content.slice(0, 1000)}</p>
-              <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
-            </CardContent>
-          </Card>
-        ))}
-
-        <When condition={totalEntries > entries.length}>
-          <div className="flex items-center justify-end">
-            <Link className="text-muted-foreground flex items-center gap-2 text-sm" href="/entries">
-              <span>View more</span>
-              <ArrowRightIcon className="size-4" />
-            </Link>
+            </div>
+          }
+        >
+          <div className="divide-y">
+            {entries.map((entry) => (
+              <Link
+                key={entry.id}
+                href={`/entries?highlight=${entry.id}`}
+                className="group block px-4 py-3 transition-colors hover:bg-muted/50"
+              >
+                <p className="mb-1 line-clamp-2 text-sm leading-relaxed text-foreground/90 group-hover:text-foreground">
+                  {entry.content.slice(0, 150)}
+                </p>
+                <p className="text-xs text-muted-foreground">{formatEntryDate(entry.createdAt)}</p>
+              </Link>
+            ))}
           </div>
         </When>
-      </When>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
 function EntryListSkeleton() {
   return (
-    <div className="flex flex-col gap-2 overflow-auto md:max-h-[400px]">
-      {Array.from({ length: 5 }).map((_, index) => (
-        <Skeleton key={index} className="h-20 w-full rounded-md" />
-      ))}
-    </div>
+    <Card>
+      <CardContent className="p-0">
+        <div className="divide-y">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="px-4 py-3">
+              <Skeleton className="mb-2 h-4 w-full" />
+              <Skeleton className="mb-1 h-4 w-3/4" />
+              <Skeleton className="h-3 w-16" />
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

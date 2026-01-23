@@ -1,8 +1,7 @@
 import { cn } from '~/lib/utils';
-import { getProgressColor } from './utils';
 import { getNextChapterProgress } from '~/actions/entry';
 import { Skeleton } from '~/components/ui/skeleton';
-import { Card, CardContent } from '~/components/ui/card';
+import { BookMarkedIcon } from 'lucide-react';
 
 type ChapterProgressProps = {
   className?: string;
@@ -12,38 +11,41 @@ export default async function ChapterProgress({ className }: ChapterProgressProp
   const { progress } = await getNextChapterProgress();
 
   return (
-    <Card className={className}>
-      <CardContent>
-        <p className="mb-4 text-sm">Your progress to generate next chapter</p>
-
-        <div className="bg-muted relative h-10 w-full overflow-hidden rounded-md">
-          <div
-            className="absolute left-0 h-full"
-            style={{
-              width: `${progress}%`,
-              backgroundColor: getProgressColor(progress),
-            }}
-          />
-
-          <div
-            className={cn('absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-white', {
-              'text-black': progress <= 50,
-            })}
-          >
-            {progress}%
-          </div>
+    <div className={cn('flex items-center gap-4', className)}>
+      <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+        <BookMarkedIcon className="size-5 text-primary" />
+      </div>
+      <div className="flex-1">
+        <div className="mb-1.5 flex items-center justify-between">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Next Chapter</p>
+          <span className="text-sm font-semibold">{progress}%</span>
         </div>
-      </CardContent>
-    </Card>
+        <div className="relative h-2 w-full overflow-hidden rounded-full bg-muted">
+          <div
+            className="absolute left-0 h-full rounded-full bg-primary transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <p className="mt-1.5 text-xs text-muted-foreground">
+          {progress < 100 ? `Write ${Math.ceil((100 - progress) / 10)} more entries to unlock` : 'Ready to generate!'}
+        </p>
+      </div>
+    </div>
   );
 }
 
 function ChapterProgressSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('rounded-md border bg-gray-100 p-4', className)}>
-      <p className="mb-4 text-sm">Your progress to generate next chapter</p>
-
-      <Skeleton className="h-10 w-full rounded-md bg-gray-200" />
+    <div className={cn('flex items-center gap-4', className)}>
+      <Skeleton className="size-12 shrink-0 rounded-xl" />
+      <div className="flex-1">
+        <div className="mb-1.5 flex items-center justify-between">
+          <Skeleton className="h-3 w-24" />
+          <Skeleton className="h-4 w-10" />
+        </div>
+        <Skeleton className="h-2 w-full rounded-full" />
+        <Skeleton className="mt-1.5 h-3 w-48" />
+      </div>
     </div>
   );
 }

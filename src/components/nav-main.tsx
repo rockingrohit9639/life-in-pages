@@ -1,5 +1,8 @@
-import { BookCopyIcon, BookIcon, BrainIcon, type LucideIcon } from 'lucide-react';
+'use client';
+
+import { BookCopyIcon, BookIcon, HomeIcon, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar';
 
@@ -11,7 +14,7 @@ type SidebarItem = {
 
 const SIDEBAR_ITEMS = [
   {
-    icon: BrainIcon,
+    icon: HomeIcon,
     href: '/home',
     label: 'Home',
   },
@@ -28,19 +31,21 @@ const SIDEBAR_ITEMS = [
 ] satisfies SidebarItem[];
 
 export function NavMain() {
+  const pathname = usePathname();
+
   return (
-    <SidebarGroup>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          {SIDEBAR_ITEMS.map((item) => (
-            <SidebarMenuButton key={item.href} tooltip={item.label} asChild>
+    <SidebarGroup className="px-2">
+      <SidebarMenu className="gap-1">
+        {SIDEBAR_ITEMS.map((item) => (
+          <SidebarMenuItem key={item.href}>
+            <SidebarMenuButton tooltip={item.label} asChild isActive={pathname.startsWith(item.href)}>
               <Link href={item.href}>
-                {item.icon && <item.icon />}
+                <item.icon className="size-4" />
                 <span>{item.label}</span>
               </Link>
             </SidebarMenuButton>
-          ))}
-        </SidebarMenuItem>
+          </SidebarMenuItem>
+        ))}
       </SidebarMenu>
     </SidebarGroup>
   );

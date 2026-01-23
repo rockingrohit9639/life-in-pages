@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,7 @@ import { Input } from '~/components/ui/input';
 import { Separator } from '~/components/ui/separator';
 import { Switch } from '~/components/ui/switch';
 import { handleError } from '~/lib/error';
-import { OnboardUserSchema, onboardUserSchema } from '~/schema/user';
+import { type OnboardUserSchema, onboardUserSchema } from '~/schema/user';
 
 export default function OnboardUser() {
   const router = useRouter();
