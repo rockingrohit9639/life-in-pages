@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { useMutation } from '@tanstack/react-query'
-import { Trash2Icon } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { deleteEntry } from '~/actions/entry'
+import { useMutation } from '@tanstack/react-query';
+import { Trash2Icon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { deleteEntry } from '~/actions/entry';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,26 +14,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '~/components/ui/alert-dialog'
-import { Button } from '~/components/ui/button'
-import { handleError } from '~/lib/error'
+} from '~/components/ui/alert-dialog';
+import { Button } from '~/components/ui/button';
+import { handleError } from '~/lib/error';
 
 type DeleteEntryButtonProps = {
-  entryId: string
-}
+  entryId: string;
+};
 
 export default function DeleteEntryButton({ entryId }: DeleteEntryButtonProps) {
-  const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   const deleteEntryMutation = useMutation({
     mutationFn: deleteEntry,
     onError: handleError,
     onSuccess: () => {
-      router.refresh()
-      setIsOpen(false)
+      router.refresh();
+      setIsOpen(false);
     },
-  })
+  });
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
@@ -57,7 +57,7 @@ export default function DeleteEntryButton({ entryId }: DeleteEntryButtonProps) {
             variant="destructive"
             disabled={deleteEntryMutation.isPending}
             onClick={() => {
-              deleteEntryMutation.mutate(entryId)
+              deleteEntryMutation.mutate(entryId);
             }}
           >
             Yes, delete
@@ -65,5 +65,5 @@ export default function DeleteEntryButton({ entryId }: DeleteEntryButtonProps) {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

@@ -1,14 +1,14 @@
-import { Entry } from '@prisma/client'
-import { Masonry } from 'masonic'
-import { format } from 'date-fns'
-import { DATE_FORMAT } from '~/constants/common'
-import { When } from '~/components/when'
-import DeleteEntryButton from './delete-entry-button'
-import { Card, CardContent } from '~/components/ui/card'
+import { Entry } from '@prisma/client';
+import { Masonry } from 'masonic';
+import { format } from 'date-fns';
+import { DATE_FORMAT } from '~/constants/common';
+import { When } from '~/components/when';
+import DeleteEntryButton from './delete-entry-button';
+import { Card, CardContent } from '~/components/ui/card';
 
 type MasonryContentProps = {
-  entries: Entry[]
-}
+  entries: Entry[];
+};
 
 export default function MasonryContent({ entries }: MasonryContentProps) {
   return (
@@ -22,9 +22,7 @@ export default function MasonryContent({ entries }: MasonryContentProps) {
             <p>{entry.content.slice(0, 1000)}</p>
 
             <div className="flex items-center justify-between">
-              <p className="text-muted-foreground text-xs">
-                {format(entry.createdAt, DATE_FORMAT)}
-              </p>
+              <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
 
               <When condition={!entry.isUsed}>
                 <DeleteEntryButton entryId={entry.id} />
@@ -34,5 +32,5 @@ export default function MasonryContent({ entries }: MasonryContentProps) {
         </Card>
       )}
     />
-  )
+  );
 }

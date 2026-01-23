@@ -1,9 +1,9 @@
-import { Chapter } from '@prisma/client'
-import Markdown from '~/components/markdown'
+import { Chapter } from '@prisma/client';
+import Markdown from '~/components/markdown';
 
 type BookContentProps = {
-  chapters: Pick<Chapter, 'id' | 'title' | 'content'>[]
-}
+  chapters: Pick<Chapter, 'id' | 'title' | 'content'>[];
+};
 
 export default function BookContent({ chapters }: BookContentProps) {
   return (
@@ -16,5 +16,5 @@ export default function BookContent({ chapters }: BookContentProps) {
         </div>
       ))}
     </div>
-  )
+  );
 }

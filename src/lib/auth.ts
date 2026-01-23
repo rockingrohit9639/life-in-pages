@@ -1,8 +1,8 @@
-import { auth } from '@clerk/nextjs/server'
-import { User } from '@prisma/client'
-import { redirect } from 'next/navigation'
-import { cache } from 'react'
-import prisma from './db'
+import { auth } from '@clerk/nextjs/server';
+import { User } from '@prisma/client';
+import { redirect } from 'next/navigation';
+import { cache } from 'react';
+import prisma from './db';
 
 /**
  * This function is a wrapper for server actions that require authentication.
@@ -12,20 +12,20 @@ import prisma from './db'
 export const actionWithAuth = cache(
   <TArgs extends unknown[], TResult>(action: (user: User, ...args: TArgs) => Promise<TResult>) => {
     return async (...args: TArgs): Promise<TResult> => {
-      const { userId } = await auth()
+      const { userId } = await auth();
 
       if (!userId) {
-        throw redirect('/sign-in')
+        throw redirect('/sign-in');
       }
 
       const dbUser = await prisma.user.findUnique({
         where: { clerkId: userId },
-      })
+      });
       if (!dbUser) {
-        throw redirect('/sign-in')
+        throw redirect('/sign-in');
       }
 
-      return action(dbUser, ...args)
-    }
+      return action(dbUser, ...args);
+    };
   },
-)
+);

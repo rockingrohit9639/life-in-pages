@@ -1,13 +1,7 @@
-import { NavMain } from '~/components/nav-main'
-import { NavUser } from '~/components/nav-user'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarRail,
-} from '~/components/ui/sidebar'
-import { SidebarHeaderContent } from './header-content'
+import { NavMain } from '~/components/nav-main';
+import { NavUser } from '~/components/nav-user';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '~/components/ui/sidebar';
+import { SidebarHeaderContent } from './header-content';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -23,5 +17,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

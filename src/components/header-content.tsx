@@ -1,5 +1,5 @@
-import { BookOpenTextIcon } from 'lucide-react'
-import { SidebarMenuButton } from '~/components/ui/sidebar'
+import { BookOpenTextIcon } from 'lucide-react';
+import { SidebarMenuButton } from '~/components/ui/sidebar';
 
 export function SidebarHeaderContent() {
   return (
@@ -14,5 +14,5 @@ export function SidebarHeaderContent() {
         <span className="truncate font-medium">Life in Pages</span>
       </div>
     </SidebarMenuButton>
-  )
+  );
 }

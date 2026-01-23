@@ -1,15 +1,12 @@
-'use server'
+'use server';
 
-import { endOfMonth, startOfMonth } from 'date-fns'
-import {
-  ENTRY_REQUIRED_AFTER_FIRST_CHAPTER,
-  ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER,
-} from '~/constants/entry'
-import { actionWithAuth } from '~/lib/auth'
-import prisma from '~/lib/db'
-import { CreateEntrySchema } from '~/schema/entry'
-import { generateChapter } from './ai'
-import { revalidatePath } from 'next/cache'
+import { endOfMonth, startOfMonth } from 'date-fns';
+import { ENTRY_REQUIRED_AFTER_FIRST_CHAPTER, ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER } from '~/constants/entry';
+import { actionWithAuth } from '~/lib/auth';
+import prisma from '~/lib/db';
+import { CreateEntrySchema } from '~/schema/entry';
+import { generateChapter } from './ai';
+import { revalidatePath } from 'next/cache';
 
 export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) => {
   const newEntry = await prisma.entry.create({
@@ -17,38 +14,38 @@ export const createEntry = actionWithAuth(async (user, data: CreateEntrySchema) 
       content: data.content,
       user: { connect: { id: user.id } },
     },
-  })
+  });
 
   const notUsedEntriesCount = await prisma.entry.count({
     where: { userId: user.id, isUsed: false },
-  })
-  const chaptersCreated = await prisma.chapter.count({ where: { userId: user.id } })
+  });
+  const chaptersCreated = await prisma.chapter.count({ where: { userId: user.id } });
   const entriesRequired =
-    chaptersCreated >= 1 ? ENTRY_REQUIRED_AFTER_FIRST_CHAPTER : ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER
+    chaptersCreated >= 1 ? ENTRY_REQUIRED_AFTER_FIRST_CHAPTER : ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER;
 
   if (notUsedEntriesCount >= entriesRequired) {
     try {
-      await createChapter({ userId: user.id })
+      await createChapter({ userId: user.id });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
-  revalidatePath('/home')
+  revalidatePath('/home');
 
-  return newEntry
-})
+  return newEntry;
+});
 
 async function createChapter({ userId }: { userId: string }) {
   const notUsedEntries = await prisma.entry.findMany({
     where: { isUsed: false },
     orderBy: { createdAt: 'asc' },
-  })
+  });
 
   await generateChapter({
     entries: notUsedEntries,
     userId,
-  })
+  });
 }
 
 export const getUserEntries = actionWithAuth(async (user, { limit }: { limit?: number }) => {
@@ -56,77 +53,72 @@ export const getUserEntries = actionWithAuth(async (user, { limit }: { limit?: n
     where: { userId: user.id },
     take: limit,
     orderBy: { createdAt: 'desc' },
-  })
-})
+  });
+});
 
 export const getUserTotalEntries = actionWithAuth(async (user) => {
   return await prisma.entry.count({
     where: { userId: user.id },
-  })
-})
+  });
+});
 
 export const deleteEntry = actionWithAuth(async (user, entryId: string) => {
   const entry = await prisma.entry.findUnique({
     where: { id: entryId },
     select: { id: true, userId: true },
-  })
+  });
   if (!entry) {
-    throw new Error('Entry not found')
+    throw new Error('Entry not found');
   }
 
   if (entry.userId !== user.id) {
-    throw new Error('You are not allowed to delete this entry')
+    throw new Error('You are not allowed to delete this entry');
   }
 
   return await prisma.entry.delete({
     where: { id: entryId },
-  })
-})
+  });
+});
 
 export const getEntryDatesOfMonth = actionWithAuth(async (user) => {
   const entriesInMonth = await prisma.entry.findMany({
     where: {
       userId: user.id,
-      AND: [
-        { createdAt: { gte: startOfMonth(new Date()) } },
-        { createdAt: { lte: endOfMonth(new Date()) } },
-      ],
+      AND: [{ createdAt: { gte: startOfMonth(new Date()) } }, { createdAt: { lte: endOfMonth(new Date()) } }],
     },
     select: {
       createdAt: true,
     },
-  })
+  });
 
-  return entriesInMonth.map((entry) => entry.createdAt)
-})
+  return entriesInMonth.map((entry) => entry.createdAt);
+});
 
 export const getNextChapterProgress = actionWithAuth(async (user) => {
   const totalEntries = await prisma.entry.count({
     where: { userId: user.id, isUsed: false },
-  })
+  });
 
   /** @TODO Check if user has generated the preview */
-  const isPreviewGenerated = false
+  const isPreviewGenerated = false;
 
   if (isPreviewGenerated) {
     return {
-      progress: Math.floor(
-        Math.min((totalEntries / ENTRY_REQUIRED_AFTER_FIRST_CHAPTER) * 100, 100),
-      ),
-    }
+      progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_AFTER_FIRST_CHAPTER) * 100, 100)),
+    };
   }
 
   return {
     progress: Math.floor(Math.min((totalEntries / ENTRY_REQUIRED_BEFORE_FIRST_CHAPTER) * 100, 100)),
-  }
-})
+  };
+});
 
 function getTotalEntries(userId: string) {
-  return prisma.entry.count({ where: { userId } })
+  return prisma.entry.count({ where: { userId } });
 }
 
 async function getEntriesPerDay(userId: string) {
-  const now = new Date()
+  const now = new Date();
 
   const entriesPerDay = await prisma.entry.aggregateRaw({
     pipeline: [
@@ -151,24 +143,21 @@ async function getEntriesPerDay(userId: string) {
         $sort: { _id: 1 },
       },
     ],
-  })
+  });
 
-  const _entriesPerDay = entriesPerDay as unknown as Array<{ _id: string; count: number }>
+  const _entriesPerDay = entriesPerDay as unknown as Array<{ _id: string; count: number }>;
 
   return _entriesPerDay.map((entry) => ({
     date: entry._id,
     count: entry.count,
-  }))
+  }));
 }
 
 export const getHomePageData = actionWithAuth(async (user) => {
-  const [totalEntries, entriesPerDay] = await Promise.all([
-    getTotalEntries(user.id),
-    getEntriesPerDay(user.id),
-  ])
+  const [totalEntries, entriesPerDay] = await Promise.all([getTotalEntries(user.id), getEntriesPerDay(user.id)]);
 
   return {
     totalEntries,
     entriesPerDay,
-  }
-})
+  };
+});

@@ -1,15 +1,15 @@
-import { cn } from '~/lib/utils'
-import { getProgressColor } from './utils'
-import { getNextChapterProgress } from '~/actions/entry'
-import { Skeleton } from '~/components/ui/skeleton'
-import { Card, CardContent } from '~/components/ui/card'
+import { cn } from '~/lib/utils';
+import { getProgressColor } from './utils';
+import { getNextChapterProgress } from '~/actions/entry';
+import { Skeleton } from '~/components/ui/skeleton';
+import { Card, CardContent } from '~/components/ui/card';
 
 type ChapterProgressProps = {
-  className?: string
-}
+  className?: string;
+};
 
 export default async function ChapterProgress({ className }: ChapterProgressProps) {
-  const { progress } = await getNextChapterProgress()
+  const { progress } = await getNextChapterProgress();
 
   return (
     <Card className={className}>
@@ -26,19 +26,16 @@ export default async function ChapterProgress({ className }: ChapterProgressProp
           />
 
           <div
-            className={cn(
-              'absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-white',
-              {
-                'text-black': progress <= 50,
-              },
-            )}
+            className={cn('absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-white', {
+              'text-black': progress <= 50,
+            })}
           >
             {progress}%
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function ChapterProgressSkeleton({ className }: { className?: string }) {
@@ -48,7 +45,7 @@ function ChapterProgressSkeleton({ className }: { className?: string }) {
 
       <Skeleton className="h-10 w-full rounded-md bg-gray-200" />
     </div>
-  )
+  );
 }
 
-ChapterProgress.Skeleton = ChapterProgressSkeleton
+ChapterProgress.Skeleton = ChapterProgressSkeleton;

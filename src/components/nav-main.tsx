@@ -1,18 +1,13 @@
-import { BookCopyIcon, BookIcon, BrainIcon, type LucideIcon } from 'lucide-react'
-import Link from 'next/link'
+import { BookCopyIcon, BookIcon, BrainIcon, type LucideIcon } from 'lucide-react';
+import Link from 'next/link';
 
-import {
-  SidebarGroup,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '~/components/ui/sidebar'
+import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '~/components/ui/sidebar';
 
 type SidebarItem = {
-  icon: LucideIcon
-  href: string
-  label: string
-}
+  icon: LucideIcon;
+  href: string;
+  label: string;
+};
 
 const SIDEBAR_ITEMS = [
   {
@@ -30,7 +25,7 @@ const SIDEBAR_ITEMS = [
     href: '/book',
     label: 'Book',
   },
-] satisfies SidebarItem[]
+] satisfies SidebarItem[];
 
 export function NavMain() {
   return (
@@ -48,5 +43,5 @@ export function NavMain() {
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

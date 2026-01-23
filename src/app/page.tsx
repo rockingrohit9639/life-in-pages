@@ -1,7 +1,7 @@
-import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
-import Link from 'next/link'
-import { Button } from '~/components/ui/button'
-import { cn } from '~/lib/utils'
+import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
+import Link from 'next/link';
+import { Button } from '~/components/ui/button';
+import { cn } from '~/lib/utils';
 
 export default function Home() {
   return (
@@ -40,5 +40,5 @@ export default function Home() {
         </SignedIn>
       </div>
     </div>
-  )
+  );
 }

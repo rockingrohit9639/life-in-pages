@@ -1,42 +1,42 @@
-'use client'
+'use client';
 
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '~/components/ui/form'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Textarea } from '~/components/ui/textarea'
-import { Button } from '~/components/ui/button'
-import { useMutation } from '@tanstack/react-query'
-import { createEntry } from '~/actions/entry'
-import { handleError } from '~/lib/error'
-import { PlusIcon } from 'lucide-react'
-import { CreateEntrySchema, createEntrySchema } from '~/schema/entry'
-import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '~/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Textarea } from '~/components/ui/textarea';
+import { Button } from '~/components/ui/button';
+import { useMutation } from '@tanstack/react-query';
+import { createEntry } from '~/actions/entry';
+import { handleError } from '~/lib/error';
+import { PlusIcon } from 'lucide-react';
+import { CreateEntrySchema, createEntrySchema } from '~/schema/entry';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function CreateEntryPage() {
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(createEntrySchema),
     defaultValues: {
       content: '',
     },
-  })
+  });
 
   const createEntryMutation = useMutation({
     mutationFn: createEntry,
     onError: handleError,
     onSuccess: () => {
-      toast.success('Entry created successfully')
-      form.reset()
-      router.push('/home')
+      toast.success('Entry created successfully');
+      form.reset();
+      router.push('/home');
     },
-  })
+  });
 
   function onSubmit(values: CreateEntrySchema) {
-    createEntryMutation.mutate(values)
+    createEntryMutation.mutate(values);
   }
 
-  const content = form.watch('content')
+  const content = form.watch('content');
 
   return (
     <div className="mx-auto pt-10 md:max-w-screen-md">
@@ -67,5 +67,5 @@ export default function CreateEntryPage() {
         </form>
       </Form>
     </div>
-  )
+  );
 }

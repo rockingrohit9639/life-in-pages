@@ -1,7 +1,7 @@
-'use server'
+'use server';
 
-import { actionWithAuth } from '~/lib/auth'
-import prisma from '~/lib/db'
+import { actionWithAuth } from '~/lib/auth';
+import prisma from '~/lib/db';
 
 export const getUserBook = actionWithAuth(async (user) => {
   const book = await prisma.book.findUniqueOrThrow({
@@ -11,7 +11,7 @@ export const getUserBook = actionWithAuth(async (user) => {
         select: { id: true, title: true, content: true },
       },
     },
-  })
+  });
 
-  return book
-})
+  return book;
+});

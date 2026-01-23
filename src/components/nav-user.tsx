@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { SignOutButton, useUser } from '@clerk/nextjs'
-import { CogIcon, LogOutIcon } from 'lucide-react'
-import { Avatar, AvatarFallback } from '~/components/ui/avatar'
+import { SignOutButton, useUser } from '@clerk/nextjs';
+import { CogIcon, LogOutIcon } from 'lucide-react';
+import { Avatar, AvatarFallback } from '~/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,18 +11,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu'
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from '~/components/ui/sidebar'
-import ThemeToggler from './theme-toggler'
+} from '~/components/ui/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '~/components/ui/sidebar';
+import ThemeToggler from './theme-toggler';
 
 export function NavUser() {
-  const { user } = useUser()
-  const { isMobile } = useSidebar()
+  const { user } = useUser();
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -85,5 +80,5 @@ export function NavUser() {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

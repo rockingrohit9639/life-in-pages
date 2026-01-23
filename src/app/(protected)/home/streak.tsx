@@ -1,32 +1,32 @@
-'use client'
+'use client';
 
-import { getDaysInMonth, isPast, isSameDay } from 'date-fns'
-import { CheckIcon, XIcon } from 'lucide-react'
-import { useEffect } from 'react'
-import { cn } from '~/lib/utils'
+import { getDaysInMonth, isPast, isSameDay } from 'date-fns';
+import { CheckIcon, XIcon } from 'lucide-react';
+import { useEffect } from 'react';
+import { cn } from '~/lib/utils';
 
 type StreakProps = {
-  className?: string
-  entryDates: Date[]
-}
+  className?: string;
+  entryDates: Date[];
+};
 
 export default function Streak({ className, entryDates }: StreakProps) {
   useEffect(function scrollCurrentDateInView() {
-    const currentDate = new Date().getDate()
-    const currentDateElement = document.getElementById(`day-${currentDate}`)
+    const currentDate = new Date().getDate();
+    const currentDateElement = document.getElementById(`day-${currentDate}`);
 
     if (currentDateElement) {
-      currentDateElement.scrollIntoView({ behavior: 'smooth' })
+      currentDateElement.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [])
+  }, []);
 
   return (
     <div className={cn('flex w-full gap-2 overflow-x-auto', className)}>
       {Array.from({ length: getDaysInMonth(new Date()) }).map((_, index) => {
-        const date = new Date(new Date().getFullYear(), new Date().getMonth(), index + 1)
-        const hasEntry = entryDates.some((entryDate) => isSameDay(entryDate, date))
-        const isToday = isSameDay(date, new Date())
-        const isPastDate = isPast(date)
+        const date = new Date(new Date().getFullYear(), new Date().getMonth(), index + 1);
+        const hasEntry = entryDates.some((entryDate) => isSameDay(entryDate, date));
+        const isToday = isSameDay(date, new Date());
+        const isPastDate = isPast(date);
 
         return (
           <div
@@ -49,8 +49,8 @@ export default function Streak({ className, entryDates }: StreakProps) {
               index + 1
             )}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

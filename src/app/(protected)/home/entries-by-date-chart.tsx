@@ -1,37 +1,30 @@
-'use client'
+'use client';
 
-import { PackageOpenIcon } from 'lucide-react'
-import Link from 'next/link'
-import { Line, LineChart, XAxis } from 'recharts'
-import { Button } from '~/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '~/components/ui/chart'
-import { When } from '~/components/when'
-import { cn } from '~/lib/utils'
+import { PackageOpenIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Line, LineChart, XAxis } from 'recharts';
+import { Button } from '~/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '~/components/ui/chart';
+import { When } from '~/components/when';
+import { cn } from '~/lib/utils';
 
-const chartConfig = {} satisfies ChartConfig
+const chartConfig = {} satisfies ChartConfig;
 
 type EntriesByDateChartProps = {
-  className?: string
+  className?: string;
   data: {
-    date: string
-    count: number
-  }[]
-}
+    date: string;
+    count: number;
+  }[];
+};
 
 export default function EntriesByDateChart({ data, className }: EntriesByDateChartProps) {
   return (
     <Card className={cn('h-[600px]', className)}>
       <CardHeader>
         <CardTitle>Entries by date</CardTitle>
-        <CardDescription>
-          This chart displays the number of entries created in the last 30 days.
-        </CardDescription>
+        <CardDescription>This chart displays the number of entries created in the last 30 days.</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -66,5 +59,5 @@ export default function EntriesByDateChart({ data, className }: EntriesByDateCha
         </When>
       </CardContent>
     </Card>
-  )
+  );
 }

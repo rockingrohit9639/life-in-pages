@@ -1,10 +1,10 @@
-import { getUserBook } from '~/actions/book'
-import EmptyState from '~/components/empty-state'
-import { When } from '~/components/when'
-import BookContent from './book-content'
+import { getUserBook } from '~/actions/book';
+import EmptyState from '~/components/empty-state';
+import { When } from '~/components/when';
+import BookContent from './book-content';
 
 export default async function BookPage() {
-  const book = await getUserBook()
+  const book = await getUserBook();
 
   return (
     <div className="mx-auto min-h-screen max-w-screen-md md:border-x">
@@ -27,5 +27,5 @@ export default async function BookPage() {
         <BookContent chapters={book.chapters} />
       </When>
     </div>
-  )
+  );
 }

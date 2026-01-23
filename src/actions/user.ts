@@ -1,8 +1,8 @@
-'use server'
+'use server';
 
-import { actionWithAuth } from '~/lib/auth'
-import prisma from '~/lib/db'
-import { OnboardUserSchema } from '~/schema/user'
+import { actionWithAuth } from '~/lib/auth';
+import prisma from '~/lib/db';
+import { OnboardUserSchema } from '~/schema/user';
 
 export const onboardUser = actionWithAuth(async (user, data: OnboardUserSchema) => {
   await Promise.all([
@@ -21,7 +21,7 @@ export const onboardUser = actionWithAuth(async (user, data: OnboardUserSchema) 
         authorId: user.id,
       },
     }),
-  ])
-})
+  ]);
+});
 
-export const getCurrentUser = actionWithAuth(async (user) => user)
+export const getCurrentUser = actionWithAuth(async (user) => user);

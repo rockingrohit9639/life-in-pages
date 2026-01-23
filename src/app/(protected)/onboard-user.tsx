@@ -1,29 +1,22 @@
-'use client'
+'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { onboardUser } from '~/actions/user'
-import { Button } from '~/components/ui/button'
-import { Card, CardContent } from '~/components/ui/card'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '~/components/ui/form'
-import { Input } from '~/components/ui/input'
-import { Separator } from '~/components/ui/separator'
-import { Switch } from '~/components/ui/switch'
-import { handleError } from '~/lib/error'
-import { OnboardUserSchema, onboardUserSchema } from '~/schema/user'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { onboardUser } from '~/actions/user';
+import { Button } from '~/components/ui/button';
+import { Card, CardContent } from '~/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
+import { Input } from '~/components/ui/input';
+import { Separator } from '~/components/ui/separator';
+import { Switch } from '~/components/ui/switch';
+import { handleError } from '~/lib/error';
+import { OnboardUserSchema, onboardUserSchema } from '~/schema/user';
 
 export default function OnboardUser() {
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(onboardUserSchema),
     defaultValues: {
@@ -32,20 +25,20 @@ export default function OnboardUser() {
       bookMood: '',
       bookIsPublic: false,
     },
-  })
+  });
 
   const onboardUserMutation = useMutation({
     mutationFn: onboardUser,
     onError: handleError,
     onSuccess: () => {
-      form.reset()
-      toast.success('Onboarding successful')
-      router.refresh()
+      form.reset();
+      toast.success('Onboarding successful');
+      router.refresh();
     },
-  })
+  });
 
   function onSubmit(data: OnboardUserSchema) {
-    onboardUserMutation.mutate(data)
+    onboardUserMutation.mutate(data);
   }
 
   return (
@@ -107,10 +100,7 @@ export default function OnboardUser() {
                   <FormItem className="mb-4">
                     <FormLabel>Book Is Public</FormLabel>
                     <FormControl>
-                      <Switch
-                        checked={field.value ?? false}
-                        onCheckedChange={(checked) => field.onChange(!!checked)}
-                      />
+                      <Switch checked={field.value ?? false} onCheckedChange={(checked) => field.onChange(!!checked)} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -125,5 +115,5 @@ export default function OnboardUser() {
         </Card>
       </Form>
     </div>
-  )
+  );
 }

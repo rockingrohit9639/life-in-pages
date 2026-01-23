@@ -1,13 +1,13 @@
-import { ArrowRightIcon } from 'lucide-react'
-import Link from 'next/link'
-import { Card, CardContent } from './ui/card'
+import { ArrowRightIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Card, CardContent } from './ui/card';
 
 type StatCardProps = {
-  className?: string
-  title: string
-  value: React.ReactNode
-  link?: { label: string; href: string }
-}
+  className?: string;
+  title: string;
+  value: React.ReactNode;
+  link?: { label: string; href: string };
+};
 
 export default function StatCard({ className, title, value, link }: StatCardProps) {
   return (
@@ -29,5 +29,5 @@ export default function StatCard({ className, title, value, link }: StatCardProp
         ) : null}
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,20 +1,20 @@
-import { Entry } from '@prisma/client'
-import { generateObject } from 'ai'
-import { google } from '@ai-sdk/google'
-import { getLIPPrompt, LIP_SYSTEM_PROMPT } from '~/constants/ai'
-import prisma from '~/lib/db'
-import z from 'zod'
+import { Entry } from '@prisma/client';
+import { generateObject } from 'ai';
+import { google } from '@ai-sdk/google';
+import { getLIPPrompt, LIP_SYSTEM_PROMPT } from '~/constants/ai';
+import prisma from '~/lib/db';
+import z from 'zod';
 
 export async function generateChapter({
   entries,
   userId,
 }: {
-  entries: Pick<Entry, 'id' | 'content' | 'createdAt'>[]
-  userId: string
+  entries: Pick<Entry, 'id' | 'content' | 'createdAt'>[];
+  userId: string;
 }) {
   const book = await prisma.book.findUniqueOrThrow({
     where: { authorId: userId },
-  })
+  });
 
   const { object } = await generateObject({
     model: google('models/gemini-2.0-flash-exp'),
@@ -24,7 +24,7 @@ export async function generateChapter({
       title: z.string().describe('The title for the chapter based on the entries used'),
       content: z.string().describe('The content for the chapter based on the entries used'),
     }),
-  })
+  });
 
   await Promise.all([
     prisma.chapter.create({
@@ -40,5 +40,5 @@ export async function generateChapter({
       where: { id: { in: entries.map((entry) => entry.id) } },
       data: { isUsed: true },
     }),
-  ])
+  ]);
 }

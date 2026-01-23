@@ -1,18 +1,18 @@
-import StatCard from '~/components/stat-card'
-import StreakWrapper from './streak-wrapper'
-import { Button } from '~/components/ui/button'
-import { ArrowRightIcon } from 'lucide-react'
-import ChapterProgress from './chapter-progress'
-import { Suspense } from 'react'
-import EntriesByDateChart from './entries-by-date-chart'
-import Link from 'next/link'
-import { getHomePageData } from '~/actions/entry'
-import EntryList from './entry-list'
-import { getCurrentUser } from '~/actions/user'
+import StatCard from '~/components/stat-card';
+import StreakWrapper from './streak-wrapper';
+import { Button } from '~/components/ui/button';
+import { ArrowRightIcon } from 'lucide-react';
+import ChapterProgress from './chapter-progress';
+import { Suspense } from 'react';
+import EntriesByDateChart from './entries-by-date-chart';
+import Link from 'next/link';
+import { getHomePageData } from '~/actions/entry';
+import EntryList from './entry-list';
+import { getCurrentUser } from '~/actions/user';
 
 export default async function HomePage() {
-  const user = await getCurrentUser()
-  const { totalEntries, entriesPerDay } = await getHomePageData()
+  const user = await getCurrentUser();
+  const { totalEntries, entriesPerDay } = await getHomePageData();
 
   return (
     <div className="p-4">
@@ -55,5 +55,5 @@ export default async function HomePage() {
         <EntriesByDateChart data={entriesPerDay} className="md:col-span-6" />
       </div>
     </div>
-  )
+  );
 }

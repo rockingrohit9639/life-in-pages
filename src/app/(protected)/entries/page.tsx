@@ -1,10 +1,10 @@
-import { FilterIcon } from 'lucide-react'
-import { getUserEntries } from '~/actions/entry'
-import { Button } from '~/components/ui/button'
-import EntriesMasonry from './_components/entries-masonry'
+import { FilterIcon } from 'lucide-react';
+import { getUserEntries } from '~/actions/entry';
+import { Button } from '~/components/ui/button';
+import EntriesMasonry from './_components/entries-masonry';
 
 export default async function EntriesPage() {
-  const entries = await getUserEntries({})
+  const entries = await getUserEntries({});
 
   return (
     <div className="w-full p-4">
@@ -23,5 +23,5 @@ export default async function EntriesPage() {
 
       <EntriesMasonry entries={entries} />
     </div>
-  )
+  );
 }

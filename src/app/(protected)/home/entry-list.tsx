@@ -1,20 +1,17 @@
-import { ArrowRightIcon } from 'lucide-react'
-import Link from 'next/link'
-import { getUserEntries, getUserTotalEntries } from '~/actions/entry'
-import { When } from '~/components/when'
-import { DATE_FORMAT } from '~/constants/common'
-import { format } from 'date-fns'
-import { Skeleton } from '~/components/ui/skeleton'
-import EmptyState from '~/components/empty-state'
-import { Button } from '~/components/ui/button'
-import { cn } from '~/lib/utils'
-import { Card, CardContent } from '~/components/ui/card'
+import { ArrowRightIcon } from 'lucide-react';
+import Link from 'next/link';
+import { getUserEntries, getUserTotalEntries } from '~/actions/entry';
+import { When } from '~/components/when';
+import { DATE_FORMAT } from '~/constants/common';
+import { format } from 'date-fns';
+import { Skeleton } from '~/components/ui/skeleton';
+import EmptyState from '~/components/empty-state';
+import { Button } from '~/components/ui/button';
+import { cn } from '~/lib/utils';
+import { Card, CardContent } from '~/components/ui/card';
 
 export default async function EntryList({ className }: { className?: string }) {
-  const [entries, totalEntries] = await Promise.all([
-    getUserEntries({ limit: 5 }),
-    getUserTotalEntries(),
-  ])
+  const [entries, totalEntries] = await Promise.all([getUserEntries({ limit: 5 }), getUserTotalEntries()]);
 
   return (
     <div className={cn('flex flex-col gap-2 overflow-auto md:max-h-[550px]', className)}>
@@ -39,9 +36,7 @@ export default async function EntryList({ className }: { className?: string }) {
           <Card key={entry.id}>
             <CardContent>
               <p className="mb-2">{entry.content.slice(0, 1000)}</p>
-              <p className="text-muted-foreground text-xs">
-                {format(entry.createdAt, DATE_FORMAT)}
-              </p>
+              <p className="text-muted-foreground text-xs">{format(entry.createdAt, DATE_FORMAT)}</p>
             </CardContent>
           </Card>
         ))}
@@ -56,7 +51,7 @@ export default async function EntryList({ className }: { className?: string }) {
         </When>
       </When>
     </div>
-  )
+  );
 }
 
 function EntryListSkeleton() {
@@ -66,7 +61,7 @@ function EntryListSkeleton() {
         <Skeleton key={index} className="h-20 w-full rounded-md" />
       ))}
     </div>
-  )
+  );
 }
 
-EntryList.Skeleton = EntryListSkeleton
+EntryList.Skeleton = EntryListSkeleton;
