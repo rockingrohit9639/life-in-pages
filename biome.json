@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.12/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["./**", "!node_modules", "!.next", "!dist", "!build", "!.vercel"]
+    "includes": ["./**/*", "!node_modules", "!.next", "!dist", "!build", "!.vercel"]
   },
   "formatter": {
     "enabled": true,
@@ -47,25 +47,7 @@
     "actions": {
       "source": {
         "organizeImports": {
-          "level": "on",
-          "options": {
-            "groups": [
-              { "type": false, "source": [":BUN:", ":NODE:"] },
-              ":BLANK_LINE:",
-              { "type": false, "source": [":URL:"] },
-              ":BLANK_LINE:",
-              {
-                "type": false,
-                "source": [":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:"]
-              },
-              ":BLANK_LINE:",
-              { "type": false, "source": [":ALIAS:"] },
-              ":BLANK_LINE:",
-              { "type": false, "source": [":PATH:"] },
-              ":BLANK_LINE:",
-              { "type": false }
-            ]
-          }
+          "level": "on"
         }
       }
     }
