@@ -8,7 +8,11 @@ export const getUserBook = actionWithAuth(async (user) => {
     where: { authorId: user.id },
     include: {
       chapters: {
-        select: { id: true, title: true, content: true },
+        select: { id: true, title: true, content: true, createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      },
+      author: {
+        select: { name: true },
       },
     },
   });
