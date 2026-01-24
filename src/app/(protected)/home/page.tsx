@@ -25,7 +25,7 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="border-b bg-linear-to-br from-primary/5 via-background to-primary/10 px-6 py-8 md:px-8 md:py-12">
+      <div className="border-b bg-linear-to-br from-primary/5 via-background to-primary/10 py-8 md:py-12">
         <div className="mx-auto max-w-6xl">
           <p className="text-muted-foreground mb-1 text-sm font-medium">{greeting}</p>
           <h1 className="mb-3 text-2xl font-bold tracking-tight md:text-3xl">{user?.name?.split(' ')[0]}</h1>
@@ -43,7 +43,7 @@ export default async function HomePage() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-6xl px-6 py-6 md:px-8 md:py-8">
+      <div className="mx-auto max-w-6xl py-6 md:py-8">
         {/* Stats Row */}
         <div className="mb-6 grid gap-4 md:grid-cols-3">
           <Card className="border-primary/20 bg-linear-to-br from-primary/5 to-transparent">

@@ -2,8 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import prisma from '~/lib/db';
 import OnboardUser from './onboard-user';
-import { SidebarInset, SidebarProvider } from '~/components/ui/sidebar';
-import { AppSidebar } from '~/components/app-sidebar';
+import { Navbar } from '~/components/navbar';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { userId } = await auth();
@@ -22,11 +21,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <div className="flex flex-1 flex-col gap-4 pt-0">{children}</div>
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="min-h-screen">
+      <Navbar />
+      <main>{children}</main>
+    </div>
   );
 }

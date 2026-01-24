@@ -20,7 +20,7 @@ export default async function EntriesPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="border-b bg-linear-to-br from-primary/5 via-background to-primary/10 px-6 py-8 md:px-8 md:py-10">
+      <div className="border-b bg-linear-to-br from-primary/5 via-background to-primary/10 py-8 md:py-10">
         <div className="mx-auto max-w-6xl">
           <div className="mb-1 flex items-center gap-2">
             <BookOpenIcon className="size-4 text-primary" />
@@ -41,7 +41,7 @@ export default async function EntriesPage() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-6xl px-6 py-6 md:px-8">
+      <div className="mx-auto max-w-6xl py-6 md:py-8">
         {/* Stats Row */}
         <div className="mb-6 grid gap-3 sm:grid-cols-3">
           <Card className="border-primary/20 bg-linear-to-br from-primary/5 to-transparent">

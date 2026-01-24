@@ -77,7 +77,7 @@ export default function CreateEntryPage() {
     <div className="min-h-screen">
       {/* Header */}
       <div className="border-b bg-linear-to-br from-primary/5 via-background to-primary/10">
-        <div className="mx-auto max-w-3xl px-6 py-6">
+        <div className="mx-auto max-w-6xl py-6">
           <div className="mb-4 flex items-center justify-between">
             <Button variant="ghost" size="sm" asChild className="text-muted-foreground -ml-2">
               <Link href="/entries">
@@ -105,7 +105,7 @@ export default function CreateEntryPage() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-3xl px-6 py-6">
+      <div className="mx-auto max-w-6xl py-6">
         {/* Writing Prompts Toggle */}
         <div className="mb-4">
           <button
